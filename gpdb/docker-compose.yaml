@@ -1,0 +1,30 @@
+version: '3.7' # specify docker-compose version
+
+# Define the services/containers to be run
+services:
+
+  greenplum:
+    image: andrlange/gpdb6oss
+    container_name: gpdbsne
+    restart: unless-stopped
+    volumes:
+      - ~/.docker-conf/data/greenplum:/code
+    ports:
+      - "5432:5432"
+      - "99:22"
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@example.de
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - ~/.docker-conf/greenplum/pgadmin:/etc/pgadmin/
+    ports:
+      - "9090:80"
+    depends_on:
+      - greenplum
+
+networks:
+  default:
+    driver: bridge
