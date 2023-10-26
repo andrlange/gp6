@@ -126,3 +126,5 @@ test.main
 ${SSH*}
 ${SSH*}.bak
 *.tar
+/.fastRequest/
+/.idea/
